@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MessLedger — Mess Meal & Cost Calculator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="view/style.css" />
+</head>
+
+<body>
+  <main class="app">
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 6v12m-3-6h6M5 20h14a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v14a1 1 0 001 1z" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-name">MessLedger</h1>
+          <p class="brand-tagline">Meal &amp; Cost Calculator</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="live-badge">
+          <span class="live-dot"></span> Live
+        </span>
+        <div class="user-avatar">ML</div>
+      </div>
+    </header>
+
+    <!-- Summary -->
+    <section class="summary-section">
+      <div class="summary-grid">
+        <div class="stat-card">
+          <p class="stat-label">Total Bazar</p>
+          <p id="total-bazar" class="stat-value">৳0</p>
+          <p class="stat-hint">Across all roommates</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Total Meals</p>
+          <p id="total-meals" class="stat-value">0</p>
+          <p class="stat-hint">Across all roommates</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Total Utility</p>
+          <p id="total-utility" class="stat-value">৳0</p>
+          <p class="stat-hint">Electricity, water, gas</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Utility / Person</p>
+          <p id="utility-per-person" class="stat-value">৳0.00</p>
+          <p class="stat-hint">Equal split</p>
+        </div>
+      </div>
+
+      <div class="rate-banner">
+        <div class="rate-bg rate-bg-1"></div>
+        <div class="rate-bg rate-bg-2"></div>
+        <div class="rate-content">
+          <div class="rate-meta">
+            <p class="rate-label">Meal Rate</p>
+            <p class="rate-hint">Total Bazar ÷ Total Meals</p>
+          </div>
+          <div class="rate-value-wrap">
+            <p id="meal-rate" class="rate-value">৳0.00</p>
+            <span class="rate-live">Live</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Member Breakdown -->
+    <section class="members-section">
+      <div class="section-header">
+        <h2 class="section-title">Member Breakdown</h2>
+        <span id="member-count" class="pill pill-neutral">0 members</span>
+      </div>
+
+      <div id="member-list" class="member-list"></div>
+
+      <div id="empty-state" class="empty-state">
+        <div class="empty-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4z" />
+          </svg>
+        </div>
+        <p class="empty-title">No roommates yet</p>
+        <p class="empty-sub">Add your first roommate to start calculating meal costs.</p>
+      </div>
+
+      <button id="add-member-btn" class="btn-add" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 4v16m8-8H4" />
+        </svg>
+        Add Roommate
+      </button>
+    </section>
+
+    <!-- Bottom: Ledger + Actions -->
+    <div class="bottom-grid">
+      <section class="ledger-card">
+        <div class="section-header">
+          <h2 class="section-title">Ledger Balance Status</h2>
+          <span id="ledger-status" class="pill pill-neutral">No members</span>
+        </div>
+        <div class="ledger-grid">
+          <div class="ledger-stat ledger-refund">
+            <p class="ledger-label">Total Refunds</p>
+            <p id="total-refund" class="ledger-value">৳0.00</p>
+          </div>
+          <div class="ledger-stat ledger-due">
+            <p class="ledger-label">Total Dues</p>
+            <p id="total-due" class="ledger-value">৳0.00</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="actions">
+        <button id="reset-btn" class="btn btn-secondary" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Reset Ledger
+        </button>
+
+        <button id="pdf-btn" class="btn btn-primary" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 10v6m0 0l-3-3m3 3l3-3M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1z" />
+          </svg>
+          Download PDF
+        </button>
+
+        <button id="copy-btn" class="btn btn-primary btn-full" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          Copy Report for WhatsApp
+        </button>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- MVC load order: Model → View → Controller -->
+  <script src="model/model.js"></script>
+  <script src="view/view.js"></script>
+  <script src="controller/controller.js"></script>
+</body>
+</html>
